@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wms.mapper.CustomerMapper">
+
+    <select id="getCustomerStats" resultType="java.util.Map">
+        SELECT c.customer_name,
+               COUNT(o.order_id) as order_count,
+               SUM(o.total_amount) as total_amount
+        FROM customers c
+        LEFT JOIN orders o ON c.customer_id = o.related_party_id
+        WHERE o.order_type = '2'
+          AND o.status = '4'
+        GROUP BY c.customer_id
+    </select>
+</mapper> 

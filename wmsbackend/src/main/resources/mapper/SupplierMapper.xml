@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wms.mapper.SupplierMapper">
+
+    <select id="getSupplierStats" resultType="java.util.Map">
+        SELECT s.supplier_name,
+               COUNT(o.order_id) as order_count,
+               SUM(o.total_amount) as total_amount
+        FROM suppliers s
+        LEFT JOIN orders o ON s.supplier_id = o.related_party_id
+        WHERE o.order_type = '1'
+          AND o.status = '4'
+        GROUP BY s.supplier_id
+    </select>
+</mapper> 
